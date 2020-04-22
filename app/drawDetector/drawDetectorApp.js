@@ -40,9 +40,9 @@ const p5draw = (p) => {
 	};
 
 	p.draw = () => {
-        // Draw a small black circle under the mouse
+        // Draw a line under the mouse
         if (p.mouseIsPressed) {
-            submittedLabel="";
+            
             drawingCanvas.strokeWeight(1);
             drawingCanvas.stroke(255);
             if(lastX>=0) {
@@ -62,7 +62,7 @@ const p5draw = (p) => {
         // Draw the drawing canvas
         p.image(drawingCanvas, 0, 0, width, height);
 
-        
+        //if we have started the game, and the shape size has not overtaken the screen's width draw the shape and user submission, and check for winning shape 
         if(startNewShape && size<width) {
             
             let shape = shapeArray[shapeIndex];
@@ -78,7 +78,7 @@ const p5draw = (p) => {
             else if(shape==='Rectangle')
             {
                 for ( var i = 0 ; i < 250 ; i++ ){
-                    p.rect(width/2-size/1.25, height/2-size/2, size*1.61803398875/i, size/i);
+                    p.rect(width/2-size/1.25/i, height/2-size/2/i, size*1.61803398875/i, size/i);
                 }
             }
             else if(shape==='Triangle') {
@@ -114,6 +114,8 @@ const p5draw = (p) => {
             p.textSize(16);
             p.textAlign(p.CENTER);
             p.text(textToDraw, width / 2, height - 20);
+
+            //don't check label until this flag is set
             if(submittedLabel===shape) {
                 win = true;
                 startNewShape=false;
@@ -161,8 +163,10 @@ const p5draw = (p) => {
             drawingCanvas.background(0);
             startNewShape = true;
             shapeIndex = Math.floor(p.random(3.9999));
+            submittedLabel="";
         }
     }
+    //flag for actually checking label against our model
     p.mouseReleased = () => {
         submittedLabel=label;
     }
